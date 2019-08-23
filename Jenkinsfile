@@ -1,28 +1,25 @@
-env.mvnHome = '/usr/share/maven3'
-node('mavenlabel') {
-   
-   
-   stage('Preparation') { // for display purposes
-      
-      git 'https://github.com/jglick/simple-maven-project-with-tests.git'
-        
-      
-   }
-   stage('Build') {
-      
-      if (isUnix()) {
-         sh "'${mvnHome}/bin/mn' clean install"
-      } else {
-         bat(/"${mvnHome}\bin\mvn" -Dmaven.test.failure.ignore clean package/)
-      }
-   }
-   stage('Results') {
-      junit '**/target/surefire-reports/TEST-*.xml'
-      archive 'target/*.jar'
-   }
-   stage('publish') {
-     echo 'vdjhvbhjdsb'
-   }
-   
-
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                // Windows command
+                // bat 'git clone https://github.com/raviaare/springexample.git'
+                // Linux command
+                sh "rm -rf springexample"
+                sh 'git clone https://github.com/raviaare/springexample.git'
+                sh "mvn clean -f springexample"
+            }
+        }
+        stage('Test') {
+            steps {
+                sh "mvn test -f springexample"
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh "mvn package -f springexample"
+            }
+        }
+    }
 }
