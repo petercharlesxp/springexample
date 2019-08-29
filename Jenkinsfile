@@ -7,7 +7,7 @@ pipeline {
                 // bat 'git clone https://github.com/raviaare/springexample.git'
                 // Linux command
                 sh "rm -rf springexample"
-                sh 'git clone https://github.com/raviaare/springexample.git'
+                sh 'git clone https://github.com/petercharlesxp/springexample.git'
                 sh "mvn clean -f springexample"
             }
         }
